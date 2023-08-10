@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timesheet Project</title>
+    <link rel="stylesheet" href="./Timesheet.css">
+</head>
+<body>
+    <header>
+        <main>
+            <section id="clock">
+                <h2>Clock In/Out</h2>
+                <form id="clockForm">
+                    <label for="clockIn">Clock In:</label>
+                    <input type="datetime-local" id="clockIn" required>
+                    <label for="clockOut">Clock Out:</label>
+                    <input type="datetime-local" id="clockOut" required>
+                    <button type="submit">Submit</button>
+                </form>
+            </section>
+
+            <section id="salary">
+                <h2>Salary Details</h2>
+                <p>Total Work Hours: <span id="totalHours">0</span></p>
+                <p>Hourly Wage: $<span id="hourlyWage">0.00</span></p>
+                <p>Total Salary: $<span id="totalSalary">0.00</span></p>
+            </section>
+
+            <section id="tax">
+                <h2>Tax Information:</h2>
+                <p>Total Taxes: $<span id="totalTaxes">0.00</span></p>
+            </section>
+
+            <section id="paycheck">
+                <h2>Paycheck</h2>
+                <p>Your Paycheck for the Period:</p>
+                <button id="generatePaycheck">Generate Paycheck</button>
+                <div id="paycheckDetails"></div>
+            </section>
+
+            <section id="history">
+                <h2>Clock-In/Out</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Clock In</th>
+                            <th>Lunch</th>
+                            <th>Clock Out</th>
+                            <th>Total Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <tr>
+                            <td>2023-08-10</td>
+                            <td>08:00 AM</td>
+                            <td>12:00 PM - 12:30 PM</td>
+                            <td>04:30 PM</td>
+                            <td>8.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Timesheet Project. All rights reserved</p>
+        </footer>
+    </header>
+    
+    <script src="./Timesheet.js" defer></script>
+</body>
+</html>
