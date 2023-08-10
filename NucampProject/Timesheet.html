@@ -14,6 +14,8 @@
                 <form id="clockForm">
                     <label for="clockIn">Clock In:</label>
                     <input type="datetime-local" id="clockIn" required>
+                    <label for="clockIn">Lunch Duration (in hours):</label>
+                    <input type="number" id="lunch" step=".5" required>
                     <label for="clockOut">Clock Out:</label>
                     <input type="datetime-local" id="clockOut" required>
                     <button type="submit">Submit</button>
@@ -40,6 +42,7 @@
             </section>
 
             <section id="history">
+                <div>Total Worked Hours: <span id="totalWorkedHours">0.00</span></div>
                 <h2>Clock-In/Out</h2>
                 <table>
                     <thead>
