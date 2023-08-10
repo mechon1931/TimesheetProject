@@ -51,14 +51,16 @@ clockForm.addEventListener("submit", function (event) {
     const clockInValue = clockInInput.value.split("T")[1];
     const lunchDuration = parseFloat(lunchInput.value);
     const clockOutValue = clockOutInput.value.split("T")[1];
-    
+
+    const selectedDate = new Date(clockInInput.value);
+    const formattedDate = `${selectedDate.getMonth() + 1}/${selectedDate.getDate()}`;
 
     //Calculate total hours with lunch break subtracted.
     const totalHours = calculateTotalHours(clockInValue, clockOutValue, lunchDuration);
 
     //Update history data with new Clock In/Out record
     historyData.push({
-        date: new Date().toISOString().split("T")[0], 
+        date: formattedDate, // Use the formatted date
         clockIn: clockInValue,
         lunch: lunchDuration.toFixed(1), 
         clockOut: clockOutValue,
