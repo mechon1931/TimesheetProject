@@ -43,8 +43,8 @@ function updateHistoryTable() {
             
             occupationCell.textContent = occupationData.occupationTitle;
             employmentCell.textContent = occupationData.employmentEstimate;
-            medianWageCell.textContent = occupationData.medianHourlyWage;        }
-        
+            medianWageCell.textContent = occupationData.medianHourlyWage;     
+        }
     });
 };
 
@@ -74,7 +74,6 @@ async function fetchOccupationData(seriesID) {
     } catch (error) {
         console.error('Error:', error);
     }
-
 };
 
 document.addEventListener('DOMContentLoaded', function () {
