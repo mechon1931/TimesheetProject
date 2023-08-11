@@ -13,7 +13,7 @@ function calculateTotalHours(clockIn, clockOut, lunchDuration) {
 
 //Update ClockIn/ClockOut history table
 function updateHistoryTable() {
-    const historyTable = document.querySelector("#historyTableBody")
+    const historyTable = document.querySelector("#historyTableBody"); 
     const totalWorkedHoursCell = document.querySelector("#totalWorkedHours");
 
     //Clear existing rows.
@@ -35,45 +35,18 @@ function updateHistoryTable() {
         clockOutCell.textContent = record.clockOut;
         totalHoursCell.textContent = calculateTotalHours(record.clockIn, record.clockOut, parseFloat(record.lunch));
         totalWorkedHoursCell.textContent = calculateTotalWorkedHours();
+
+        if(occupationData) {
+            const occupationCell = newRow.insertCell(5);
+            const employmentCell = newRow.insertCell(6);
+            const medianWageCell = newRow.insertCell(7);
+            
+            occupationCell.textContent = occupationData.occupationTitle;
+            employmentCell.textContent = occupationData.employmentEstimate;
+            medianWageCell.textContent = occupationData.medianHourlyWage;        }
+        
     });
 };
-
-//Event Listener for Clock In/Out form
-const clockForm = document.querySelector("#clockForm");
-
-clockForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const clockInInput = document.querySelector("#clockIn");
-    const lunchInput = document.querySelector("#lunch");
-    const clockOutInput = document.querySelector("#clockOut");
-
-    const clockInValue = clockInInput.value.split("T")[1];
-    const lunchDuration = parseFloat(lunchInput.value);
-    const clockOutValue = clockOutInput.value.split("T")[1];
-
-    const selectedDate = new Date(clockInInput.value);
-    const formattedDate = `${selectedDate.getMonth() + 1}/${selectedDate.getDate()}`;
-
-    //Calculate total hours with lunch break subtracted.
-    const totalHours = calculateTotalHours(clockInValue, clockOutValue, lunchDuration);
-
-    //Update history data with new Clock In/Out record
-    historyData.push({
-        date: formattedDate, // Use the formatted date
-        clockIn: clockInValue,
-        lunch: lunchDuration.toFixed(1), 
-        clockOut: clockOutValue,
-    });
-
-    //update the Clock In/Out history table
-    updateHistoryTable();
-
-    //clear form inputs
-    clockInInput.value = '';
-    lunchInput.value = '';
-    clockOutInput.value = '';
-});
 
 function calculateTotalWorkedHours() {
     let totalHours = 0;
@@ -81,6 +54,43 @@ function calculateTotalWorkedHours() {
         totalHours += parseFloat(calculateTotalHours(record.clockIn, record.clockOut, parseFloat(record.lunch)));
     });
     return totalHours.toFixed(2)
-}
+};
 
+async function fetchOccupationData(seriesID) {
+    const apiUrl = 'http://api.bls.gov/publicAPI/v2/timeseries/data/';
+
+    const requestOptions = {
+        method: 'GET'
+    };
+
+    try {
+        const response = await fetch(`${apiUrl}${seriesID}`, requestOptions);
+        const data = await response.json();
+        // Handle the retrieved data here
+        console.log(data);
+
+        const fetchedDataElement = document.getElementById('fetchedData');
+        fetchedDataElement.textContent = JSON.stringify(data, null, 2);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+};
+
+document.addEventListener('DOMContentLoaded', function () {
+    const fetchDataButton = document.getElementById('fetchDataButton');
+    const updateTableButton = document.getElementById('updateTableButton');
+    const occupationSelect = document.getElementById('occupation');
+
+
+    fetchDataButton.addEventListener('click', function () {
+        const selectedOccupation = occupationSelect.value; // Get the selected occupation's value
+        fetchOccupationData(selectedOccupation);
+    });
+
+    updateTableButton.addEventListener('click', updateHistoryTable);  
+});
+
+// Call the fetchTaxData function
+fetchOccupationData();
 updateHistoryTable();

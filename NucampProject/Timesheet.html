@@ -32,6 +32,17 @@
             <section id="tax">
                 <h2>Tax Information:</h2>
                 <p>Total Taxes: $<span id="totalTaxes">0.00</span></p>
+                <div>
+                    <label for="occupation">Select Occupatio:</label>
+                    <select id="occupation">
+                        <option value="OEUM001018000000029114103">Registered Nurse</option>
+                    </select>
+                    <button id="fetchDataButton">Fetch Tax Data</button>
+                </div>
+                <button id="updateTableButton">Update History Table</button>
+                <div id="fetchedData">
+                </div>
+
             </section>
 
             <section id="paycheck">
@@ -53,17 +64,10 @@
                             <th>Total Hours</th>
                         </tr>
                     </thead>
-                    <tbody id="historyTableBody">
-                        <tr>
-                            <td>2023-08-10</td>
-                            <td>08:00 AM</td>
-                            <td>12:00 PM - 12:30 PM</td>
-                            <td>04:30 PM</td>
-                            <td>8.00</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="historyTableBody"></tbody>
                 </table>
             </section>
+            
         </main>
 
         <footer>
