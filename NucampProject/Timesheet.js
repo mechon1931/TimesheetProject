@@ -35,18 +35,9 @@ function updateHistoryTable() {
         clockOutCell.textContent = record.clockOut;
         totalHoursCell.textContent = calculateTotalHours(record.clockIn, record.clockOut, parseFloat(record.lunch));
         totalWorkedHoursCell.textContent = calculateTotalWorkedHours();
-
-        if(occupationData) {
-            const occupationCell = newRow.insertCell(5);
-            const employmentCell = newRow.insertCell(6);
-            const medianWageCell = newRow.insertCell(7);
-            
-            occupationCell.textContent = occupationData.occupationTitle;
-            employmentCell.textContent = occupationData.employmentEstimate;
-            medianWageCell.textContent = occupationData.medianHourlyWage;     
-        }
     });
 };
+
 
 function calculateTotalWorkedHours() {
     let totalHours = 0;
@@ -56,40 +47,43 @@ function calculateTotalWorkedHours() {
     return totalHours.toFixed(2)
 };
 
-async function fetchOccupationData(seriesID) {
-    const apiUrl = 'http://api.bls.gov/publicAPI/v2/timeseries/data/';
+//Event listerner for Clock In/Out form
+const clockForm = document.querySelector("#clockForm");
+//Updates the table for Clock IN/Out
+clockForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    const requestOptions = {
-        method: 'GET'
-    };
+    const clockInInput = document.querySelector("#clockIn");
+    const lunchInput = document.querySelector("#lunch");
+    const clockOutInput = document.querySelector("#clockOut");
 
-    try {
-        const response = await fetch(`${apiUrl}${seriesID}`, requestOptions);
-        const data = await response.json();
-        // Handle the retrieved data here
-        console.log(data);
+    const clockInValue = clockInInput.value.split("T")[1];
+    const lunchDuration = parseFloat(lunchInput.value);
+    const clockOutValue = clockOutInput.value.split("T")[1];
 
-        const fetchedDataElement = document.getElementById('fetchedData');
-        fetchedDataElement.textContent = JSON.stringify(data, null, 2);
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
+    const selectedDate = new Date(clockInInput.value);
+    const formattedDate = `${selectedDate.getMonth() + 1}/${selectedDate.getDate()}`;
 
-document.addEventListener('DOMContentLoaded', function () {
-    const fetchDataButton = document.getElementById('fetchDataButton');
-    const updateTableButton = document.getElementById('updateTableButton');
-    const occupationSelect = document.getElementById('occupation');
+    //Calculate total hours with lunch break subtracted.
+    const totalHours = calculateTotalHours(clockInValue, clockOutValue, lunchDuration);
 
-
-    fetchDataButton.addEventListener('click', function () {
-        const selectedOccupation = occupationSelect.value; // Get the selected occupation's value
-        fetchOccupationData(selectedOccupation);
+    //Update history data with new Clock In/Out record
+    historyData.push({
+        date: formattedDate, // Use the formatted date
+        clockIn: clockInValue,
+        lunch: lunchDuration.toFixed(1), 
+        clockOut: clockOutValue,
     });
 
-    updateTableButton.addEventListener('click', updateHistoryTable);  
+    //update the Clock In/Out history table
+    updateHistoryTable();
+
+    //clear form inputs
+    clockInInput.value = '';
+    lunchInput.value = '';
+    clockOutInput.value = '';
 });
 
-// Call the fetchTaxData function
-fetchOccupationData();
-updateHistoryTable();
+
+
+
