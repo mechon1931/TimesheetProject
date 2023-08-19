@@ -84,6 +84,30 @@ clockForm.addEventListener("submit", function (event) {
     clockOutInput.value = '';
 });
 
+const calculateSalaryButton = document.querySelector("#calculateSalaryButton");
+calculateSalaryButton.addEventListener("click", function() {
+    updateSalary();
+})
 
+const hourlyWageInput = document.querySelector("#hourlyWage");
+hourlyWageInput.addEventListener("keyup", function(e) {
+    if(e.key ==="Enter") {
+        updateSalary();
+    }
+})
 
+function updateSalary() {
+    const hourlyWage = parseFloat(document.querySelector("#hourlyWage").value);
+    const totalWorkedHours = calculateTotalWorkedHours();;
+
+    if(!isNaN(hourlyWage) && !isNaN(totalWorkedHours)) {
+        const calculatedSalary = (hourlyWage * totalWorkedHours) * 52;
+        const calculatedSalarySpan = document.querySelector("#totalSalary");
+        const formattedSalary = calculatedSalary.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        calculatedSalarySpan.textContent = formattedSalary;
+    } else {
+        console.log("Invalid Input")
+    }
+}
 
