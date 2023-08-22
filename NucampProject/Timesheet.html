@@ -29,7 +29,11 @@
                     <input type="number" id="hourlyWage"></input>
                 </label>
                 <p>Total Salary: $<span id="totalSalary">0.00</span></p>
-                <button id="calculateSalaryButton">Calculate</button> 
+                <button id="calculateSalaryButton">Calculate</button>
+                <button id="convertCurrencyButton">Convert Currency</button> 
+                <div id="convertedCurrencyResult">
+                    Converted Salary: <span id="convertedSalaryAmount">0.00</span> EUR
+                </div>
             </section>
 
             <section id="tax">
@@ -37,12 +41,12 @@
                 <p>Total Taxes: $<span id="totalTaxes">0.00</span></p>
             </section>
 
-            <section id="paycheck">
+            <!-- <section id="paycheck">
                 <h2>Paycheck</h2>
                 <p>Your Paycheck for the Period:</p>
                 <button id="generatePaycheck">Generate Paycheck</button>
                 <div id="paycheckDetails"></div>
-            </section>
+            </section> -->
 
             <section id="history">
                 <h2>Clock-In/Out</h2>
@@ -67,6 +71,6 @@
         </footer>
     </header>
     
-    <script src="./Timesheet.js" defer></script>
+    <script src="./Timesheet.js" defer type="module"></script>
 </body>
 </html>

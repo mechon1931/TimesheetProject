@@ -1,3 +1,5 @@
+import Freecurrencyapi from './node_modules/@everapi/freecurrencyapi-js/index.js';
+
 //Clock In/Out History Data
 const historyData = [];
 
@@ -87,14 +89,14 @@ clockForm.addEventListener("submit", function (event) {
 const calculateSalaryButton = document.querySelector("#calculateSalaryButton");
 calculateSalaryButton.addEventListener("click", function() {
     updateSalary();
-})
+});
 
 const hourlyWageInput = document.querySelector("#hourlyWage");
 hourlyWageInput.addEventListener("keyup", function(e) {
     if(e.key ==="Enter") {
         updateSalary();
     }
-})
+});
 
 function updateSalary() {
     const hourlyWage = parseFloat(document.querySelector("#hourlyWage").value);
@@ -109,5 +111,36 @@ function updateSalary() {
     } else {
         console.log("Invalid Input")
     }
-}
+};
+
+
+const convertCurrencyButton = document.querySelector("#convertCurrencyButton");
+convertCurrencyButton.addEventListener("click", function() {
+    convertCurrency();
+});
+
+async function convertCurrency() {
+    try{
+        const apiKey = 'fca_live_eQ2KqNrvAKZPpM3GwQlvsMZjO8zhuQr6TSFL4poH';
+
+        const freecurrencyapi = new Freecurrencyapi(apiKey);
+
+        const response = await freecurrencyapi.latest({
+            base_currency: 'USD',
+            currencies: 'EUR'
+        });
+
+        const convertedSalaryAmount = response.rates.EUR * parseFloat(document.querySelector("#totalSalary").textContent);
+        const convertedSalarySpan = document.querySelector("#convertedSalaryAmount");
+        convertedSalarySpan.textContent = convertedSalaryAmount.toFixed(2);
+
+
+
+        console.log(response);
+    } catch(error) {
+        console.error("Error converting currency", error);
+    };
+};
+
+
 
