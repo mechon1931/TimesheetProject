@@ -10,8 +10,8 @@
     <header>
         <main>
             <section id="clock">
-                <h2>Clock In/Out</h2>
-                <form id="clockForm">
+                <h2 class="clock">Clock In/Out</h2>
+                <form id="clockForm" class="clockForm">
                     <label for="clockIn">Clock In:</label>
                     <input type="datetime-local" id="clockIn" required>
                     <label for="clockIn">Lunch Duration (in hours):</label>
@@ -22,17 +22,36 @@
                 </form>
             </section>
 
+            <section id="history" class="historyTable">
+                <h2>Hours Worked Table</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Clock In</th>
+                            <th>Lunch</th>
+                            <th>Clock Out</th>
+                            <th>Total Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody"></tbody>
+                </table>
+            </section>
+
             <section id="salary">
                 <h2>Salary Details</h2>
-                <div>Total Worked Hours: <span id="totalWorkedHours">0.00</span></div>
+                <div id="baseSalary">Total Worked Hours: <span id="totalWorkedHours">0.00</span></div>
                 <label>Hourly Wage: $
                     <input type="number" id="hourlyWage"></input>
                 </label>
                 <p>Total Salary: $<span id="totalSalary">0.00</span></p>
                 <button id="calculateSalaryButton">Calculate</button>
-                <button id="convertCurrencyButton">Convert Currency</button> 
-                <div id="convertedCurrencyResult">
-                    Converted Salary: <span id="convertedSalaryAmount">0.00</span> EUR
+                <div id="convertedCurrency">
+                    <div>Converted Hourly Wage: </div>
+                    <button id="convertCurrencyButton">Convert Currency to EUR</button> 
+                    <div id="convertedCurrencyResult" class="convertedCurrencyResult">
+                        Converted Salary: <span id="convertedSalaryAmount">0.00</span>
+                    </div>
                 </div>
             </section>
 
@@ -48,21 +67,7 @@
                 <div id="paycheckDetails"></div>
             </section> -->
 
-            <section id="history">
-                <h2>Clock-In/Out</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Clock In</th>
-                            <th>Lunch</th>
-                            <th>Clock Out</th>
-                            <th>Total Hours</th>
-                        </tr>
-                    </thead>
-                    <tbody id="historyTableBody"></tbody>
-                </table>
-            </section>
+            
             
         </main>
 
