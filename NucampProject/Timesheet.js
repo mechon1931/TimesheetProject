@@ -2,6 +2,8 @@ import Freecurrencyapi from './node_modules/@everapi/freecurrencyapi-js/index.js
 
 //Clock In/Out History Data
 const historyData = [];
+let calculatedSalary; // Declare a global variable to store the calculated salary
+
 
 //Calculate Total Work hours
 function calculateTotalHours(clockIn, clockOut, lunchDuration) {
@@ -103,13 +105,13 @@ function updateSalary() {
     const totalWorkedHours = calculateTotalWorkedHours();;
 
     if(!isNaN(hourlyWage) && !isNaN(totalWorkedHours)) {
-        const calculatedSalary = (hourlyWage * totalWorkedHours) * 52;
+        calculatedSalary = (hourlyWage * totalWorkedHours) * 52;
         const calculatedSalarySpan = document.querySelector("#totalSalary");
         const formattedSalary = calculatedSalary.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
         calculatedSalarySpan.textContent = formattedSalary;
     } else {
-        console.log("Invalid Input")
+        console.log("Invalid Input");
+        calculatedSalary = 0; // Set a default value for calculatedSalary
     }
 };
 
@@ -129,10 +131,14 @@ async function convertCurrency() {
             base_currency: 'USD',
             currencies: 'EUR'
         });
-
-        const convertedSalaryAmount = response.rates.EUR * parseFloat(document.querySelector("#totalSalary").textContent);
+        
+        const eurRate = response.data.EUR; // Access the EUR exchange rate from the response
+        const convertedSalaryAmount = (calculatedSalary * eurRate);
+        console.log(calculatedSalary)
         const convertedSalarySpan = document.querySelector("#convertedSalaryAmount");
-        convertedSalarySpan.textContent = convertedSalaryAmount.toFixed(2);
+        const formattedConvertedSalary = convertedSalaryAmount.toLocaleString("en-US", { style: "currency", currency: "EUR" });
+
+        convertedSalarySpan.textContent = formattedConvertedSalary;
 
 
 
